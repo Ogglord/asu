@@ -165,7 +165,7 @@ def generate_branches():
 
     for branch in branches:
         branches[branch]["versions"] = []
-        branches[branch]["name"] = branch
+        branches[branch].setdefault("name", branch)
 
     for version in app.versions:
         branch_name = get_branch(version)["name"]
