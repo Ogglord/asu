@@ -21,6 +21,7 @@ from asu.util import (
     parse_feeds_conf,
     parse_kernel_version,
     parse_packages_file,
+    reload_branches,
     reload_targets,
     reload_versions,
 )
@@ -47,6 +48,7 @@ templates = Jinja2Templates(directory=base_path / "templates")
 
 app.latest = []
 app.versions = []
+reload_branches()
 reload_versions(app)
 logging.info(f"Found {len(app.versions)} versions")
 
@@ -157,6 +159,7 @@ def json_v1_latest():
 
 
 def generate_branches():
+    reload_branches()
     reload_versions(app)  # Do a reload in case .versions.json has updated.
     branches = dict(**settings.branches)
 

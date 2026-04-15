@@ -556,6 +556,36 @@ def parse_kernel_version(url: str) -> str:
     return ""
 
 
+def reload_branches() -> None:
+    """Fetch remote branches JSON and merge into settings.branches.
+
+    If settings.branches_url is empty or the fetch fails, this is a no-op.
+    """
+    if not settings.branches_url:
+        return
+
+    try:
+        response = client_get(settings.branches_url)
+    except Exception:
+        log.warning("Failed to fetch branches_url: %s", settings.branches_url)
+        return
+
+    if response.status_code != 200:
+        log.warning(
+            "branches_url returned %d: %s", response.status_code, settings.branches_url
+        )
+        return
+
+    try:
+        fetched_branches = response.json()
+    except Exception:
+        log.warning("branches_url returned invalid JSON: %s", settings.branches_url)
+        return
+
+    settings.branches.update(fetched_branches)
+    log.info("Merged %d branch(es) from %s", len(fetched_branches), settings.branches_url)
+
+
 def reload_versions(app: FastAPI) -> bool:
     """Set the values of both `app.versions` and `app.latest` using the
     upstream `.versions.json` file.
