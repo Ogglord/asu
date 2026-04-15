@@ -582,8 +582,9 @@ def reload_branches() -> None:
         log.warning("branches_url returned invalid JSON: %s", settings.branches_url)
         return
 
+    settings.branches.clear()
     settings.branches.update(fetched_branches)
-    log.info("Merged %d branch(es) from %s", len(fetched_branches), settings.branches_url)
+    log.info("Loaded %d branch(es) from %s", len(fetched_branches), settings.branches_url)
 
 
 def reload_versions(app: FastAPI) -> bool:
