@@ -1,5 +1,17 @@
 # Attended Sysupgrade Server
 
+Fork of [openwrt/asu](https://github.com/openwrt/asu) adding CORS support and `branches_url` for dynamic branch configuration. Used to serve custom firmware builds from [pesa1234/openwrt](https://github.com/pesa1234/openwrt) for the GL.iNet Flint 2 (MT6000).
+
+> **Related repos:**
+>
+> | Repo | Purpose |
+> |------|---------|
+> | [Ogglord/asu](https://github.com/Ogglord/asu) | This repo -- ASU application (fork of openwrt/asu) |
+> | [Ogglord/asu-deploy](https://github.com/Ogglord/asu-deploy) | Deployment config (compose, config, deploy script) |
+> | [Ogglord/openwrt-imagebuilder-mt6000](https://github.com/Ogglord/openwrt-imagebuilder-mt6000) | CI workflows that build ImageBuilder containers from pesa1234's branches |
+
+---
+
 [![codecov](https://codecov.io/gh/openwrt/asu/branch/main/graph/badge.svg)](https://codecov.io/gh/openwrt/asu)
 
 This project simplifies the sysupgrade process for upgrading the firmware of
