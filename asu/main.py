@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from asu import __version__
+from asu import __env__, __version__
 from asu.config import settings
 from asu.routers import api, stats
 from asu.store import LocalStore, get_store
@@ -86,6 +86,7 @@ def index(request: Request):
             branches=reversed(settings.branches),
             defaults=settings.allow_defaults,
             version=__version__,
+            env=__env__,
             server_stats=settings.server_stats,
             max_custom_rootfs_size_mb=settings.max_custom_rootfs_size_mb,
             max_defaults_length=settings.max_defaults_length,
