@@ -121,11 +121,38 @@ def json_v1_target_index(path: str) -> dict[str, Union[str, dict[str, str]]]:
 
 @app.get("/json/v1/{path:path}/{arch:path}-index.json")
 def json_v1_arch_index(path: str, arch: str):
-    feed_url: str = f"{settings.upstream_url}/{path}/{arch}"
-    feeds: list[str] = parse_feeds_conf(feed_url)
+    """Aggregated package index used by clients (e.g. owut) to resolve target
+    versions of installed packages before upgrade.
+
+    Merge order (later overrides earlier), mirroring the runtime distfeeds.list
+    where the fork's target feed is line 1 and upstream mirrors are lines 2-7:
+
+      1. Upstream convention: {upstream_url}/{path}/{arch}/feeds.conf
+      2. OpenWrt upstream snapshot mirrors: covers user-space packages (bash,
+         nano, git, …) that the fork's IB does not bake into its own packages.adb.
+      3. Fork-built target packages.adb: covers fork-specific versions of
+         base-files, kernel, openssl variants, etc.
+    """
     packages: dict[str, str] = {}
-    for feed in feeds:
+
+    feed_url: str = f"{settings.upstream_url}/{path}/{arch}"
+    for feed in parse_feeds_conf(feed_url):
         packages.update(parse_packages_file(f"{feed_url}/{feed}").get("packages", {}))
+
+    snapshot_base = "https://downloads.openwrt.org/snapshots/packages"
+    for feed in ("base", "luci", "packages", "routing", "telephony", "video"):
+        packages.update(
+            parse_packages_file(f"{snapshot_base}/{arch}/{feed}").get("packages", {})
+        )
+
+    for target, target_arch in get_branch(path).get("targets", {}).items():
+        if target_arch == arch:
+            packages.update(
+                parse_packages_file(
+                    f"{settings.upstream_url}/{path}/targets/{target}/packages"
+                ).get("packages", {})
+            )
+
     return packages
 
 
