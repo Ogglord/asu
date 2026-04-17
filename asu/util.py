@@ -366,14 +366,26 @@ def check_manifest(
 
     Returns:
         str: Error message or None
+
+    Note:
+        Version drift (requested != installed) is logged as a warning rather
+        than failed. Standalone ImageBuilders mirror upstream packages at IB
+        build time; those locally-bundled versions can diverge from what the
+        rolling upstream feed currently advertises. When clients (e.g. owut)
+        pin to the router's currently-installed version, apk may resolve to
+        the IB-local version, which is the best result reachable. A missing
+        package is still a hard failure — that indicates apk couldn't install
+        it at all.
     """
     for package, version in packages_versions.items():
         if package not in manifest:
             return f"Impossible package selection: {package} not in manifest"
         if version != manifest[package]:
-            return (
-                f"Impossible package selection: {package} version not as requested: "
-                f"{version} vs. {manifest[package]}"
+            log.warning(
+                "Version drift for %s: requested %s, installed %s (continuing)",
+                package,
+                version,
+                manifest[package],
             )
     return None
 
