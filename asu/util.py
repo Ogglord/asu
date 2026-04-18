@@ -649,8 +649,8 @@ def reload_versions(app: FastAPI) -> bool:
         "SNAPSHOT",
         *[
             f"{branch_name}-SNAPSHOT"
-            for branch_name in settings.branches
-            if branch_name != "SNAPSHOT"
+            for branch_name, branch in settings.branches.items()
+            if branch_name != "SNAPSHOT" and branch.get("snapshot", True)
         ],
     )
 
