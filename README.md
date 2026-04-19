@@ -1,5 +1,7 @@
 # Attended Sysupgrade Server
 
+[![Build and publish container image](https://github.com/Ogglord/asu/actions/workflows/publish.yml/badge.svg?branch=main)](https://github.com/Ogglord/asu/actions/workflows/publish.yml)
+
 Fork of [openwrt/asu](https://github.com/openwrt/asu) adding CORS support and `branches_url` for dynamic branch configuration. Used to serve custom firmware builds from [pesa1234/openwrt](https://github.com/pesa1234/openwrt) for the GL.iNet Flint 2 (MT6000).
 
 > **Related repos:**
