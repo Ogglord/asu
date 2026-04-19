@@ -377,6 +377,76 @@ details[open] summary {
     word-wrap: break-word;
 }
 
+.notice-banner {
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    padding: 1em 3.5em 1em 1.4em;
+    background-color: #fffbeb;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 9px,
+        rgba(251, 191, 36, 0.09) 9px,
+        rgba(251, 191, 36, 0.09) 18px
+    );
+    border: 1px solid #fcd34d;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.875em;
+    line-height: 1.7;
+    overflow: hidden;
+}
+
+.notice-banner::before {
+    content: "NOTICE";
+    position: absolute;
+    top: 0.7em;
+    right: 0.9em;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.65em;
+    font-weight: bold;
+    letter-spacing: 0.18em;
+    color: #92400e;
+    opacity: 0.4;
+}
+
+.notice-banner strong {
+    color: #78350f;
+    display: block;
+    margin-bottom: 0.4em;
+}
+
+.notice-banner .notice-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+    margin-top: 0.4em;
+}
+
+.notice-banner .notice-label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #92400e;
+    opacity: 0.65;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 4.5em;
+}
+
+.notice-banner code {
+    background: rgba(245, 158, 11, 0.15);
+    color: #92400e;
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
 /* Dark theme */
 @media (prefers-color-scheme: dark) {
     body {
@@ -467,5 +537,38 @@ details[open] summary {
     .flex-item {
         background-color: #161b22;
         border-color: #30363d;
+    }
+
+    .notice-banner {
+        background-color: #1c1500;
+        background-image: repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 9px,
+            rgba(251, 191, 36, 0.05) 9px,
+            rgba(251, 191, 36, 0.05) 18px
+        );
+        border-color: #854d0e;
+        border-left-color: #f59e0b;
+        color: #fde68a;
+    }
+
+    .notice-banner::before {
+        color: #fbbf24;
+        opacity: 0.3;
+    }
+
+    .notice-banner strong {
+        color: #fcd34d;
+    }
+
+    .notice-banner .notice-label {
+        color: #fbbf24;
+    }
+
+    .notice-banner code {
+        background: rgba(245, 158, 11, 0.12);
+        color: #fcd34d;
+        border-color: rgba(245, 158, 11, 0.25);
     }
 }
